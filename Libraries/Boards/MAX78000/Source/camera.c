@@ -496,6 +496,7 @@ int camera_start_capture_image(void)
     rx_data_index = 0;
     MXC_PCIF->int_fl = MXC_PCIF->int_fl;
     MXC_PCIF_Start(MXC_PCIF_READMODE_SINGLE_MODE);
+    //MXC_PCIF_Start(MXC_PCIF_READMODE_CONTINUES_MODE);
     return ret;
 }
 

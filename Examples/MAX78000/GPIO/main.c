@@ -83,6 +83,7 @@ void gpio_isr(void* cbdata)
 {
     mxc_gpio_cfg_t* cfg = cbdata;
     MXC_GPIO_OutToggle(cfg->port, cfg->mask);
+    printf("pressed\n");
 }
 
 int main(void)
