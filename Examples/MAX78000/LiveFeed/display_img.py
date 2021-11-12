@@ -8,6 +8,7 @@ img = np.zeros((w,h,c),dtype=np.uint8)
 
 # open file in binary format
 img_file = open("hand","rb")
+#img_file = open("img0001","rb")
 
 # rgb565
 # pixel_h  pixel_l
@@ -35,6 +36,5 @@ while pixel_h:
     pixel_h = img_file.read(1)
     pixel_l = img_file.read(1)
 
-print(np.max(img))
 plt.imshow(img)
 plt.show()
