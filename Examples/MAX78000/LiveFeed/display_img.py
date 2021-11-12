@@ -25,14 +25,14 @@ while pixel_h:
     y = idx//w
     
     # scale to 8 bit and save
-    img[x,y,0] = r<<3
-    img[x,y,1] = g<<2
-    img[x,y,2] = b<<3
+    img[x,y,0] = (r<<3)
+    img[x,y,1] = (g<<2)
+    img[x,y,2] = (b<<3)
     idx += 1
     
     pixel_h = img_file.read(1)
     pixel_l = img_file.read(1)
 
-print(img)
+print(np.max(img))
 plt.imshow(img)
 plt.show()
