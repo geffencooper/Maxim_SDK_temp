@@ -89,7 +89,7 @@ int main(void)
   set_image_dimensions(128, 128);
 
   /* Set the screen rotation because camera flipped*/
-	MXC_TFT_SetRotation(ROTATE_180);
+	//MXC_TFT_SetRotation(ROTATE_180);
 
   // Setup the camera image dimensions, pixel format and data acquiring details.
   // four bytes because each pixel is 2 bytes, can get 2 pixels at a time

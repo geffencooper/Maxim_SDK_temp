@@ -179,5 +179,5 @@ void init_class_button()
 
     init_LCD();
     MXC_TFT_ClearScreen();
-    MXC_TFT_SetRotation(ROTATE_180);
+   // MXC_TFT_SetRotation(ROTATE_180);
 }
