@@ -10,7 +10,7 @@ img = np.zeros((w,h,c),dtype=np.uint8)
 img_file = open("hand","rb")
 
 # rgb565
-# pixel_l  pixel_h
+# pixel_h  pixel_l
 # RRRRRGGG GGGBBBBB
 pixel_h = img_file.read(1)
 pixel_l = img_file.read(1)
