@@ -17,14 +17,16 @@ pixel_l = img_file.read(1)
 
 idx = 0
 while pixel_h:
+    # extract the RGB values
     r = (pixel_h[0] & 0b11111000)>>3
     g = ((pixel_h[0] & 0b00000111)<<3) | ((pixel_l[0] & 0b11100000)>>5)
     b = pixel_l[0] & 0b00011111
     
+    # get the x,y coordinate of the pixel
     x = idx%w
     y = idx//w
     
-    # scale to 8 bit and save
+    # scale to RGB888 and save
     img[x,y,0] = (r<<3)
     img[x,y,1] = (g<<2)
     img[x,y,2] = (b<<3)
