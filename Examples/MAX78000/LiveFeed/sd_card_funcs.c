@@ -160,6 +160,95 @@ int ls()
     return err;
 }
 
+int make_directory(TCHAR* dir)
+{
+    err = f_stat((const TCHAR*) dir, &fno);
+    
+    if (err == FR_NO_FILE) {
+        printf("Creating directory...\n");
+        
+        if ((err = f_mkdir((const TCHAR*) dir)) != FR_OK) {
+            printf("Error creating directory: %s\n", FF_ERRORS[err]);
+            f_mount(NULL, "", 0);
+            return err;
+        }
+        else {
+            printf("Directory %s created.\n", dir);
+        }
+        
+    }
+    else {
+        printf("Directory already exists.\n");
+        return -1;
+    }
+}
+
+
+int create_file(TCHAR* file_name)
+{
+    if ((err = f_open(&file, (const TCHAR*) file_name, FA_CREATE_ALWAYS | FA_WRITE)) != FR_OK) {
+        printf("Error opening file: %s\n", FF_ERRORS[err]);
+        f_mount(NULL, "", 0);
+        return err;
+    }
+
+    if ((err = f_close(&file)) != FR_OK) {
+        printf("Error closing file: %s\n", FF_ERRORS[err]);
+        f_mount(NULL, "", 0);
+        return err;
+    }
+}
+
+
+int init_card()
+{
+    int status;
+    if (!mounted) {
+        mount();
+    }
+
+    printf("Initializing SD Card \n");
+
+    sprintf(directory,"sorting_imgs");
+    status = make_directory(directory);
+    
+    if(status < 0)
+    {
+        printf("SD card already initialized\n");
+        return status;
+    }
+    else
+    {
+        // make directories for object categories
+        sprintf(directory,"sorting_imgs/Cup");
+        sprintf(filename,"sorting_imgs/Cup/num_imgs");
+        make_directory(directory);
+        create_file(filename);
+
+        sprintf(directory,"sorting_imgs/Hex");
+        sprintf(filename,"sorting_imgs/Hex/num_imgs");
+        make_directory(directory);
+        create_file(filename);
+
+        sprintf(directory,"sorting_imgs/Trap");
+        sprintf(filename,"sorting_imgs/Trap/num_imgs");
+        make_directory(directory);
+        create_file(filename);
+
+        sprintf(directory,"sorting_imgs/Can");
+        sprintf(filename,"sorting_imgs/Can/num_imgs");
+        make_directory(directory);
+        create_file(filename);
+
+        sprintf(directory,"sorting_imgs/Bottle");
+        sprintf(filename,"sorting_imgs/Bottle/num_imgs");
+        make_directory(directory);
+        create_file(filename);
+    }
+    printf("Finished Initializing SD Card \n");
+    return status;
+}
+
 int write_image(TCHAR* file_name)
 {
     if (!mounted) {
@@ -171,8 +260,6 @@ int write_image(TCHAR* file_name)
 	uint32_t  w, h;
     unsigned int length = 128;
     camera_get_image(&raw, &imgLen, &w, &h);
-    //printf("Enter the name of the text file: \n");
-    //scanf("%255s", filename);
     
     
     if ((err = f_open(&file, (const TCHAR*) file_name, FA_CREATE_ALWAYS | FA_WRITE)) != FR_OK) {
@@ -198,14 +285,6 @@ int write_image(TCHAR* file_name)
 
     printf("file size: %d\n",f_size(&file));
     
-    // if ((err = f_write(&file, raw+128, 128, &bytes_written)) != FR_OK) {
-    //     printf("Error writing file: %s\n", FF_ERRORS[err]);
-    //     f_mount(NULL, "", 0);
-    //     return err;
-    // }
-    
-    // printf("%d bytes written to file!\n", bytes_written);
-    
     if ((err = f_close(&file)) != FR_OK) {
         printf("Error closing file: %s\n", FF_ERRORS[err]);
         f_mount(NULL, "", 0);
@@ -215,23 +294,8 @@ int write_image(TCHAR* file_name)
     printf("file size: %d\n",f_size(&file));
     printf("File Closed!\n");
 
+    ls();
 
-    // if ((err = f_open(&file, (const TCHAR*) filename, FA_READ)) != FR_OK) {
-    //     printf("Error opening file: %s\n", FF_ERRORS[err]);
-    //     f_mount(NULL, "", 0);
-    //     return err;
-    // }
-    
-    // if ((err = f_read(&file, &message, bytes_written, &bytes_read)) != FR_OK) {
-    //     printf("Error reading file: %s\n", FF_ERRORS[err]);
-    //     f_mount(NULL, "", 0);
-    //     return err;
-    // }
-
-    // printf("Read Back %d bytes\n", bytes_read);
-    // printf("Message: ");
-    // printf("%s", message);
-    // printf("\n");
     return err;
 
 }

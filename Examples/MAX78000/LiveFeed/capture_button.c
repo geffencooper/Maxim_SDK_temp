@@ -20,7 +20,7 @@ mxc_gpio_cfg_t cd_gpio;
 char a = 'a';
 
 // class category names (directory names)
-char* classes[] = {"CLASS1", "CLASS2", "CLASS3", "CLASS4","CLASS5"};
+char* classes[] = {"Cup", "Hex", "Trap", "Can","Bottle"};
 
 // number of images in each directory
 uint16_t img_amnts[] = {0,0,0,0,0};
@@ -35,6 +35,14 @@ area_t cover_text = {0, 280, 40, 12};
 
 // file name for images captured
 char file_prefix[8] = "img0000";
+
+// file paths
+char class1[] = "sorting_imgs/Cup/num_imgs";
+char class2[] = "sorting_imgs/Hex/num_imgs";
+char class3[] = "sorting_imgs/Trap/num_imgs";
+char class4[] = "sorting_imgs/Can/num_imgs";
+char class5[] = "sorting_imgs/Bottle/num_imgs";
+
 // ========================================================================================= //
 // ================================ FUNCTION DEFINITIONS =================================== //
 // ========================================================================================= //
@@ -48,17 +56,16 @@ void button_isr(void* action)
     if(class_idx == 5)
     {
         printf("quit");
-        num_to_file("sorting_imgs/CLASS1/num_imgs.txt",&img_amnts[0]);
-        num_to_file("sorting_imgs/CLASS2/num_imgs.txt",&img_amnts[1]);
-        num_to_file("sorting_imgs/CLASS3/num_imgs.txt",&img_amnts[2]);
-        num_to_file("sorting_imgs/CLASS4/num_imgs.txt",&img_amnts[3]);
-        num_to_file("sorting_imgs/CLASS5/num_imgs.txt",&img_amnts[4]);
-        get_num_from_file("sorting_imgs/CLASS1/num_imgs.txt",&img_amnts[0]);
-        get_num_from_file("sorting_imgs/CLASS2/num_imgs.txt",&img_amnts[1]);
-        get_num_from_file("sorting_imgs/CLASS3/num_imgs.txt",&img_amnts[2]);
-        get_num_from_file("sorting_imgs/CLASS4/num_imgs.txt",&img_amnts[3]);
-        get_num_from_file("sorting_imgs/CLASS5/num_imgs.txt",&img_amnts[4]);
-        printf("num 0:%i\n", *(&img_amnts[0]));
+        num_to_file(class1,&img_amnts[0]);
+        num_to_file(class2,&img_amnts[1]);
+        num_to_file(class3,&img_amnts[2]);
+        num_to_file(class4,&img_amnts[3]);
+        num_to_file(class5,&img_amnts[4]);
+        get_num_from_file(class1,&img_amnts[0]);
+        get_num_from_file(class2,&img_amnts[1]);
+        get_num_from_file(class3,&img_amnts[2]);
+        get_num_from_file(class4,&img_amnts[3]);
+        get_num_from_file(class5,&img_amnts[4]);
         umount();
         reset();
         return;
@@ -77,6 +84,9 @@ void button_isr(void* action)
         end--;
     } while (n != 0);
     printf("file: %s\n",file_prefix);
+
+    cd("sorting_imgs");
+    cd(classes[class_idx]);
     write_image(file_prefix);
     MXC_Delay(100000);
     reset();
@@ -114,13 +124,12 @@ void button_isr2(void* action)
             cover_text.x = 0;
             cover_text.y = 280;
         }
-        mount();
-        cd("sorting_imgs");
-        cd(classes[class_idx]);
-        reset();
+        //mount();
+        //cd("sorting_imgs");
+        //cd(classes[class_idx]);
+        //reset();
         printf("class: %i\n",class_idx);
         TFT_Print(buff,class_idx*48,280,font_1,sprintf(buff,classes[class_idx]));
-        
     }
 }
 
@@ -157,13 +166,14 @@ void init_class_button()
 
     cd("sorting_imgs");
     ls();
-    cd("CLASS1");
+    cd("Cup");
+    ls();
 
-    get_num_from_file("../CLASS1/num_imgs.txt",&img_amnts[0]);
-    get_num_from_file("../CLASS2/num_imgs.txt",&img_amnts[1]);
-    get_num_from_file("../CLASS3/num_imgs.txt",&img_amnts[2]);
-    get_num_from_file("../CLASS4/num_imgs.txt",&img_amnts[3]);
-    get_num_from_file("../CLASS5/num_imgs.txt",&img_amnts[4]);
+    get_num_from_file("num_imgs",&img_amnts[0]);
+    get_num_from_file("../Hex/num_imgs",&img_amnts[1]);
+    get_num_from_file("../Trap/num_imgs",&img_amnts[2]);
+    get_num_from_file("../Can/num_imgs",&img_amnts[3]);
+    get_num_from_file("../Bottle/num_imgs",&img_amnts[4]);
 
     MXC_Delay(100000);
 

@@ -63,6 +63,30 @@ int ls();
 
 
 /*
+    Description: This function creates a directory in the cwd from the passed in string
+    Parameters: string
+    Return: error code
+*/
+int make_directory(TCHAR* directory);
+
+
+/*
+    Description: This function creates a file in the cwd from the passed in string
+    Parameters: string
+    Return: error code
+*/
+int create_file(TCHAR* file_name);
+
+
+/*
+    Description: This function initializes the SD card with a directory structure
+    Parameters: None
+    Return: error code
+*/
+int init_card();
+
+
+/*
     Description: This function captures and writes an image to the SD card
     Parameters: None
     Return: error code
@@ -78,10 +102,30 @@ int write_image(TCHAR* file_name);
 int createFile();
 
 
+/*
+    Description: This function writes a 16 bit int to a file. This is used to save the
+                 index of the number of images captured for file naming.
+    Parameters: The address of the 16 bit int to write to the file
+    Return: error code
+*/
 int num_to_file(TCHAR* file_name, uint16_t *data);
+
+
+/*
+    Description: This function reads a 16 bit from the file (reads two bytes).
+    Parameters: The address of the 16 bit that will get filled with the data
+    Return: error code
+*/
 int get_num_from_file(TCHAR* file_name, uint16_t *data);
 
+
+/*
+    Description: This function is used to test SD card functionality
+    Parameters: None
+    Return: error code
+*/
 void test_drive();
+
 
 /*
     Description: This function appends a random message to the specified file

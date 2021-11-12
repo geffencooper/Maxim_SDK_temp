@@ -103,47 +103,18 @@ int main(void)
   MXC_Delay(1000000);
   MXC_TFT_SetBackGroundColor(4);
 
-  // test_drive();
-  // return 0;
-
+  // initialize the card with the directory structure if it hasn't been initialized
+  init_card();
 
   init_capture_button();
   init_class_button();
 
-    // int img_len_words = (img_dim*img_dim)/4;
-    // uint32_t input_0_camera[1024];
-    // uint32_t input_1_camera[1024];
-    // uint32_t input_2_camera[1024];
    
-    MXC_TFT_SetForeGroundColor(YELLOW);
-    // TFT_Print(buff,0,0,font_1,sprintf(buff,"option 1"));
-    // cd("sorting_imgs");
-
-    // uint16_t num = 0;
-    // num_to_file("CLASS1/num_imgs.txt",&num);
-    // num_to_file("CLASS2/num_imgs.txt",&num);
-    // num_to_file("CLASS3/num_imgs.txt",&num);
-    // num_to_file("CLASS4/num_imgs.txt",&num);
-    // num_to_file("CLASS5/num_imgs.txt",&num);
-    // get_num_from_file("CLASS1/num_imgs.txt",&num);
-    // get_num_from_file("CLASS2/num_imgs.txt",&num);
-    // get_num_from_file("CLASS3/num_imgs.txt",&num);
-    // get_num_from_file("CLASS4/num_imgs.txt",&num);
-    // get_num_from_file("CLASS5/num_imgs.txt",&num);
-    // return 0;
+  MXC_TFT_SetForeGroundColor(YELLOW);
     
-    while (1) 
-    {
-        
-        //err = 0;
-        //printf("i: %i\n",i);
-        capture_camera_img();
-        //i+=1;
-        display_RGB565_img(56,96);
-        //process_RGB888_img(input_0_camera,input_1_camera,input_2_camera);
-        //display_RGB888_img(input_0_camera,input_1_camera,input_2_camera,1024,0,0);
-    }
-    
-    printf("End of example, please try to read the card.\n");
-    return 0;
+  while (1) 
+  {
+      capture_camera_img();
+      display_RGB565_img(56,96);
+  }
 }
